@@ -13,6 +13,9 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
-    npm run build
+  npm run lint:lib
+  ng build igniteui-angular --prod
+  npm run build:style
+  npm run test:lib
+  npm run test:migration
   displayName: 'npm install and build'
