@@ -13,4 +13,5 @@ steps:
   
 - script: |
     npm install
-    npm test
+    npm run build:style
+    npm run test:lib
