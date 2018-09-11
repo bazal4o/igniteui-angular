@@ -13,6 +13,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+  npm install -g gulp
+  npm install
   npm run lint:lib
   ng build igniteui-angular --prod
   npm run build:style
