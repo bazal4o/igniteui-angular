@@ -3,17 +3,14 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/vsts/pipelines/languages/javascript
 
- pool:
+pool:
   vmImage: 'Ubuntu 16.04'
- steps:
- - task: NodeTool@0
-   displayName: 'Install Node.js'
- - script: |
+  
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '8.x'
+  
+- script: |
     npm install
-    npm install -g gulp
-    npm run lint:lib
-    ng build igniteui-angular --prod
-    npm run build:style
-    npm run test:lib
-    npm run test:migration
- displayName: 'npm install and build'
+    npm test
