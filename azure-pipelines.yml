@@ -1,0 +1,33 @@
+# Node.js
+# Build a general Node.js application with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/vsts/pipelines/languages/javascript
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+  
+steps:
+- script: echo $(System.TeamProject)
+  displayName: 'Variable'
+  
+- script: npm install
+  displayName: 'Install dependencies'
+
+- script: sudo npm install -g @angular/cli
+  displayName: 'Install Angular CLI'
+
+- script: npm run lint:lib
+  displayName: 'Run lint'
+
+- script: ng build igniteui-angular --prod
+  displayName: 'Build the source code'
+
+- script: npm run build:style
+  displayName: 'Build styles'
+
+- script: npm run test:lib
+  displayName: 'Run the tests'
+
+- script: npm run test:migration
+  displayName: 'Run the migrations'
+  
