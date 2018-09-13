@@ -7,22 +7,27 @@ pool:
   vmImage: 'Ubuntu 16.04'
   
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '8.x'
-- bash: |
-    export CHROME_BIN=/usr/bin/google-chrome
-    export DISPLAY=:99.0
-    sh -e /etc/init.d/xvfb start
-    sudo apt-get -qq update
-    sudo apt-get install -y libappindicator1 fonts-liberation
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo dpkg -i google-chrome*.deb
-    sleep 3
+- script: echo $(System.TeamProject)
+  displayName: 'Variable'
+  
+- script: npm install
+  displayName: 'Install dependencies'
 
-- script: |
-    npm install
-    npm run build:style
-    npx ng build igniteui-angular --prod
-    npm run test:lib
-    
+- script: sudo npm install -g @angular/cli
+  displayName: 'Install Angular CLI'
+
+- script: npm run lint:lib
+  displayName: 'Run lint'
+
+- script: ng build igniteui-angular --prod
+  displayName: 'Build the source code'
+
+- script: npm run build:style
+  displayName: 'Build styles'
+
+- script: npm run test:lib
+  displayName: 'Run the tests'
+
+- script: npm run test:migration
+  displayName: 'Run the migrations'
+  
